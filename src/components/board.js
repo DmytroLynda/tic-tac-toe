@@ -1,3 +1,4 @@
+import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 import React from 'react';
 import { Square } from './square';
 
@@ -9,8 +10,20 @@ export class Board extends React.Component {
     }
   }
 
-  renderSquare(i) {
-    return <Square value={i}/>;
+  renderSquare(squareNumber) {
+    return <Square 
+      value={this.state.squares[squareNumber]}
+      onClick={() => this.handleClick(squareNumber)}/>;
+  }
+
+  handleClick(squareNumber) {
+    this.handleGameSteep(squareNumber);
+  }
+
+  handleGameSteep(squareNumber) {
+    let squares = this.state.squares.splice();
+    squares[squareNumber] = 'X';
+    this.setState(squares);
   }
 
   render() {
