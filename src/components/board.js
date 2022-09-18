@@ -1,4 +1,3 @@
-import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 import React from 'react';
 import { Square } from './square';
 
@@ -6,7 +5,8 @@ export class Board extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      squares: Array(9).fill(null)
+      squares: Array(9).fill(null),
+      xIsNext: true
     }
   }
 
@@ -25,12 +25,15 @@ export class Board extends React.Component {
 
   handleGameSteep(squareNumber) {
     const squares = this.state.squares.slice();
-    squares[squareNumber] = 'X';
-    this.setState({squares: squares});
+    squares[squareNumber] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+        squares: squares,
+        xIsNext: !this.state.xIsNext
+      });
   }
 
   render() {
-    const status = 'Next player: X';
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     return (
       <div>
