@@ -25,6 +25,11 @@ export class Board extends React.Component {
 
   handleGameSteep(squareNumber) {
     const squares = this.state.squares.slice();
+
+    if (this.calculateWinner() || squares[squareNumber]){
+      return;
+    }
+
     squares[squareNumber] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
         squares: squares,
