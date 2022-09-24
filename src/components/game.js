@@ -64,6 +64,25 @@ export class Game extends React.Component {
     });
   }
 
+  formatMoveRecord(move) {
+    const prevRecord = this.state.history[move - 1];
+    if (!prevRecord) {
+      return '';
+    }
+
+    const record = this.state.history[move];
+
+    for(let i = 0; i < record.squares.length; i++) {
+      if (!prevRecord.squares[i] && record.squares[i]){
+        let col = (i + 1) % 3;
+        if (col === 0) { col = 3; }
+        const row = Math.ceil((i + 1) / 3);
+        const moveSign = record.squares[i];
+        return `[${col}, ${row}]: ${moveSign}`
+      }
+    }
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -71,7 +90,7 @@ export class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
+        `Go to move #${move} ${this.formatMoveRecord(move)}` :
         'Go to game start';
 
         return (
